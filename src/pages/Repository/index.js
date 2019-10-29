@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { FaSpinner } from 'react-icons/fa';
+import { MdKeyboardBackspace } from 'react-icons/md';
 import api from '../../services/api';
 
-// import { Container } from './styles';
+import Container from '../../components/Container';
+import { Loading, Owner } from './styles';
 
 export default class Repository extends Component {
   static propTypes = {
@@ -44,6 +48,27 @@ export default class Repository extends Component {
 
   render() {
     const { repository, issues, loading } = this.state;
-    return <h1>Repository: </h1>;
+
+    if (loading) {
+      return (
+        <Loading>
+          <FaSpinner color="#fff" size={50} />
+        </Loading>
+      );
+    }
+
+    return (
+      <Container>
+        <Owner>
+          <Link to="/">
+            <MdKeyboardBackspace color="#7159c1" size={17} /> Voltar aos
+            repositórios
+          </Link>
+          <img src={repository.owner.avatar_url} alt={repository.owner.login} />
+          <h1>{repository.name}</h1>
+          <p>{repository.description}</p>
+        </Owner>
+      </Container>
+    );
   }
 }
